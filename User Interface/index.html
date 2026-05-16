@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TerraBot - Agricultural Robot Control</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Main Page -->
+  <div id="main-page" class="page active">
+    <div class="hero-section">
+      <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=1920&h=1080&fit=crop" alt="TerraBot in field" class="hero-image">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <div class="logo-container">
+          <svg class="bot-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="10" rx="2"/>
+            <circle cx="12" cy="5" r="2"/>
+            <path d="M12 7v4"/>
+            <circle cx="8" cy="16" r="1"/>
+            <circle cx="16" cy="16" r="1"/>
+          </svg>
+          <h1>TerraBot</h1>
+        </div>
+        <p class="hero-subtitle">Intelligent Agricultural Robot Control System</p>
+      </div>
+    </div>
+    
+    <div class="device-section">
+      <div class="device-container">
+        <div class="section-header">
+          <svg class="wifi-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12.55a11 11 0 0 1 14.08 0"/>
+            <path d="M1.42 9a16 16 0 0 1 21.16 0"/>
+            <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+            <line x1="12" y1="20" x2="12.01" y2="20"/>
+          </svg>
+          <span>Available Devices</span>
+        </div>
+        
+        <div class="dropdown" id="device-dropdown">
+          <button class="dropdown-trigger" id="device-trigger">
+            <span id="selected-device">Select a device...</span>
+            <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+          <div class="dropdown-menu" id="device-menu"></div>
+        </div>
+        
+        <p class="helper-text">Devices connected to your network will appear here</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Maps Page -->
+  <div id="maps-page" class="page">
+    <div class="page-header">
+      <h1>Saved Maps</h1>
+      <p>Select a map or create a new one</p>
+    </div>
+    
+    <div class="maps-grid-container">
+      <div class="maps-grid" id="maps-grid"></div>
+    </div>
+    
+    <div class="modal" id="max-maps-modal">
+      <div class="modal-content">
+        <div class="modal-icon warning">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+        </div>
+        <h3>Maximum Maps Saved</h3>
+        <p>You can only save up to 5 maps. Delete an existing map to create a new one.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Map Page -->
+  <div id="add-map-page" class="page">
+    <div class="modal active" id="disclaimer-modal">
+      <div class="modal-content">
+        <div class="modal-icon warning">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+            <line x1="12" y1="9" x2="12" y2="13"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+        </div>
+        <h2>Position TerraBot</h2>
+        <p>Keep TerraBot at the start position before pressing "START". This ensures accurate path mapping.</p>
+        <button class="btn btn-primary" id="disclaimer-start-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
+          START
+        </button>
+      </div>
+    </div>
+    
+    <div class="page-header with-controls">
+      <input type="text" class="map-name-input" id="map-name-input" value="New Map">
+      <div class="control-buttons">
+        <button class="btn btn-primary" id="start-btn" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
+          START
+        </button>
+        <button class="btn btn-destructive" id="stop-btn" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="6" y="6" width="12" height="12"/>
+          </svg>
+          STOP
+        </button>
+        <button class="btn btn-secondary" id="save-btn" disabled>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+            <polyline points="17 21 17 13 7 13 7 21"/>
+            <polyline points="7 3 7 8 15 8"/>
+          </svg>
+          SAVE
+        </button>
+      </div>
+    </div>
+    
+    <div class="mapping-area">
+      <div class="status-indicator" id="status-indicator">
+        <div class="status-dot"></div>
+        <span>Ready</span>
+      </div>
+      
+      <div class="control-pad">
+        <div class="control-grid">
+          <div class="empty-cell"></div>
+          <button class="direction-btn" id="btn-forward" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="19" x2="12" y2="5"/>
+              <polyline points="5 12 12 5 19 12"/>
+            </svg>
+          </button>
+          <div class="empty-cell"></div>
+          <button class="direction-btn" id="btn-left" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="19" y1="12" x2="5" y2="12"/>
+              <polyline points="12 19 5 12 12 5"/>
+            </svg>
+          </button>
+          <div class="center-indicator">
+            <div class="center-dot" id="center-dot"></div>
+          </div>
+          <button class="direction-btn" id="btn-right" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </button>
+          <div class="empty-cell"></div>
+          <button class="direction-btn" id="btn-backward" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"/>
+              <polyline points="19 12 12 19 5 12"/>
+            </svg>
+          </button>
+          <div class="empty-cell"></div>
+        </div>
+      </div>
+      
+      <p class="control-hint">Use the directional controls to guide TerraBot while mapping the path</p>
+    </div>
+  </div>
+
+  <!-- Loading Page -->
+  <div id="loading-page" class="page">
+    <div class="loading-container">
+      <div class="loading-section" id="crop-selection-section">
+        <div class="bot-icon-large">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="10" rx="2"/>
+            <circle cx="12" cy="5" r="2"/>
+            <path d="M12 7v4"/>
+            <circle cx="8" cy="16" r="1"/>
+            <circle cx="16" cy="16" r="1"/>
+          </svg>
+        </div>
+        <h1>Select Your Crop</h1>
+        <p>Choose the crop type for disease detection</p>
+        
+        <div class="dropdown" id="crop-dropdown">
+          <button class="dropdown-trigger" id="crop-trigger">
+            <span id="selected-crop">Select a crop...</span>
+            <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+          <div class="dropdown-menu" id="crop-menu">
+            <button class="dropdown-item" data-crop="potato">🥔 Potato</button>
+            <button class="dropdown-item" data-crop="tomato">🍅 Tomato</button>
+            <button class="dropdown-item" data-crop="peppers">🌶️ Peppers</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="loading-section hidden" id="position-section">
+        <div class="bot-icon-large primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="11" width="18" height="10" rx="2"/>
+            <circle cx="12" cy="5" r="2"/>
+            <path d="M12 7v4"/>
+            <circle cx="8" cy="16" r="1"/>
+            <circle cx="16" cy="16" r="1"/>
+          </svg>
+        </div>
+        <h2>Position TerraBot</h2>
+        <p>Keep the bot at the start position of the saved map before proceeding.</p>
+        <button class="btn btn-primary full-width" id="done-btn">DONE</button>
+      </div>
+      
+      <div class="loading-section hidden" id="detecting-section">
+        <div class="bot-icon-large spinning">
+          <svg class="spinner" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 6v6l4 2"/>
+          </svg>
+        </div>
+        <h2>TerraBot Detection on the Way</h2>
+        <p id="detecting-text">Analyzing plants for diseases...</p>
+      </div>
+      
+      <div class="loading-section hidden" id="complete-section">
+        <div class="bot-icon-large success">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+        <h2>Report is Being Made</h2>
+        <p>Generating comprehensive analysis report...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Report Page -->
+  <div id="report-page" class="page">
+    <div class="page-header with-actions">
+      <button class="btn btn-text" id="back-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="19" y1="12" x2="5" y2="12"/>
+          <polyline points="12 19 5 12 12 5"/>
+        </svg>
+        Back to Maps
+      </button>
+      <div class="action-buttons">
+        <button class="btn btn-secondary" id="download-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Download
+        </button>
+        <button class="btn btn-primary" id="share-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="18" cy="5" r="3"/>
+            <circle cx="6" cy="12" r="3"/>
+            <circle cx="18" cy="19" r="3"/>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+          </svg>
+          Share
+        </button>
+      </div>
+    </div>
+    
+    <div class="report-content">
+      <div class="report-card" id="report-card"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
